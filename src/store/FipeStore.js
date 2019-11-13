@@ -1,151 +1,165 @@
 import { action, observable, decorate } from "mobx";
 import remotedev from "mobx-remotedev";
+import VehicleType from '../enums/VehicleTypeEnum';
+
+const baseUrl = "https://parallelum.com.br/fipe/api/v1/";
 
 const _defaultInitialState = {
-  selectedBrand: null,
-  brands: [],
+    selectedVehicleType: null,
 
-  selectedModel: null,
-  models: [],
+    selectedBrand: null,
+    brands: [],
 
-  selectedCarYear: null,
-  carYears: [],
+    selectedModel: null,
+    models: [],
 
-  carInformation: undefined
+    selectedCarYear: null,
+    carYears: [],
+
+    carInformation: undefined
 };
 
-const baseUrl = "https://parallelum.com.br/fipe/api/v1/carros";
-
 class FipeStore {
-  constructor() {
-    this.setInitialState(_defaultInitialState);
-    this.getBrands();
-  }
+    constructor() {
+        this.setInitialState(_defaultInitialState);
+        this.getBrands();
+    }
 
-  setInitialState = initialState => {
-    const {
-      brands,
-      models,
-      carYears,
-      selectedModel,
-      selectedBrand,
-      carInformation,
-      selectedCarYear
-    } = initialState;
+    setInitialState = initialState => {
+        const {
+            brands,
+            models,
+            carYears,
+            selectedModel,
+            selectedBrand,
+            carInformation,
+            selectedCarYear,
+            selectedVehicleType,
+        } = initialState;
 
-    this.brands = brands;
-    this.models = models;
-    this.carYears = carYears;
-    this.carInformation = carInformation;
-    this.selectedBrand = selectedBrand;
-    this.selectedModel = selectedModel;
-    this.selectedCarYear = selectedCarYear;
-  };
+        this.brands = brands;
+        this.models = models;
+        this.carYears = carYears;
+        this.carInformation = carInformation;
+        this.selectedBrand = selectedBrand;
+        this.selectedModel = selectedModel;
+        this.selectedCarYear = selectedCarYear;
+        this.selectedVehicleType = selectedVehicleType;
+    };
 
-  fillBrandRequest = responseFromRequest => {
-    this.brands = responseFromRequest;
-  };
+    fillBrandRequest = responseFromRequest => {
+        this.brands = responseFromRequest;
+    };
 
-  fillModelRequest = responseFromRequest => {
-    this.models = responseFromRequest;
-  };
+    fillModelRequest = responseFromRequest => {
+        this.models = responseFromRequest;
+    };
 
-  fillCarYearsRequest = responseFromRequest => {
-    this.carYears = responseFromRequest;
-  };
+    fillCarYearsRequest = responseFromRequest => {
+        this.carYears = responseFromRequest;
+    };
 
-  fillCarInformation = responseFromRequest => {
-    this.carInformation = responseFromRequest;
-  };
+    fillCarInformation = responseFromRequest => {
+        this.carInformation = responseFromRequest;
+    };
 
-  setSelectedBrand = selectedBrand => {
-    this.selectedBrand = selectedBrand;
+    setSelectedVehicleType = selectedVehicleType => {
+        this.selectedVehicleType = selectedVehicleType;
+    }
 
-    this.selectedCarYear = null;
-    this.selectedModel = null;
-    this.carInformation = null;
+    setSelectedBrand = selectedBrand => {
+        this.selectedBrand = selectedBrand;
 
-    this.models = [];
-    this.carYears = [];
+        this.selectedCarYear = null;
+        this.selectedModel = null;
+        this.carInformation = null;
 
-    this.getModels(selectedBrand.value);
-  };
+        this.models = [];
+        this.carYears = [];
 
-  setSelectedModel = selectedModel => {
-    this.selectedModel = selectedModel;
-    this.selectedCarYear = null;
-    this.carInformation = null;
+        this.getModels(selectedBrand.value);
+    };
 
-    this.carYears = [];
+    setSelectedModel = selectedModel => {
+        this.selectedModel = selectedModel;
+        this.selectedCarYear = null;
+        this.carInformation = null;
 
-    this.getCarYears(this.selectedBrand.value, this.selectedModel.value);
-  };
+        this.carYears = [];
 
-  setSelectedCarYear = selectedCarYear => {
-    this.selectedCarYear = selectedCarYear;
+        this.getCarYears(this.selectedBrand.value, this.selectedModel.value);
+    };
 
-    this.getCarInformation(
-      this.selectedBrand.value,
-      this.selectedModel.value,
-      this.selectedCarYear.value
-    );
-  };
+    setSelectedCarYear = selectedCarYear => {
+        this.selectedCarYear = selectedCarYear;
 
-  getModels = async selectedBrandId => {
-    const fetchedModels = await fetch(
-      baseUrl + `/marcas/${selectedBrandId}/modelos`
-    );
-    const fetchedModelsInJSON = await fetchedModels.json();
-    this.fillModelRequest(fetchedModelsInJSON.modelos);
-  };
+        this.getCarInformation(
+            this.selectedBrand.value,
+            this.selectedModel.value,
+            this.selectedCarYear.value
+        );
+    };
 
-  getBrands = async () => {
-    const fetchedBrands = await fetch(baseUrl + "/marcas");
-    const fetchedBrandsInJSON = await fetchedBrands.json();
-    this.fillBrandRequest(fetchedBrandsInJSON);
-  };
+    getBaseUrl = () => `${baseUrl}/${VehicleType}/`;
 
-  getCarYears = async (selectedBrandId, selectedModelId) => {
-    const fetchedCarYears = await fetch(
-      baseUrl + `/marcas/${selectedBrandId}/modelos/${selectedModelId}/anos`
-    );
-    const fetchedCarYearsInJSON = await fetchedCarYears.json();
-    this.fillCarYearsRequest(fetchedCarYearsInJSON);
-  };
 
-  getCarInformation = async (
-    selectedBrandId,
-    selectedModelId,
-    selectedCarYear
-  ) => {
-    const fetchedCarInformation = await fetch(
-      baseUrl +
-        `/marcas/${selectedBrandId}/modelos/${selectedModelId}/anos/${selectedCarYear}`
-    );
-    const fetchedCarInformationInJSON = await fetchedCarInformation.json();
-    this.fillCarInformation(fetchedCarInformationInJSON);
-  };
+    getModels = async selectedBrandId => {
+        const fetchedModels = await fetch(
+            this.getBaseUrl() + `marcas/${selectedBrandId}/modelos`
+        );
+        const fetchedModelsInJSON = await fetchedModels.json();
+        this.fillModelRequest(fetchedModelsInJSON.modelos);
+    };
+
+    getBrands = async () => {
+        const fetchedBrands = await fetch(`${this.getBaseUrl()}/marcas`);
+        const fetchedBrandsInJSON = await fetchedBrands.json();
+        this.fillBrandRequest(fetchedBrandsInJSON);
+    };
+
+    getCarYears = async (selectedBrandId, selectedModelId) => {
+        const url = `${this.getBaseUrl()}marcas/${selectedBrandId}/modelos/${selectedModelId}/anos`;
+        const fetchedCarYears = await fetch(url);
+        const fetchedCarYearsInJSON = await fetchedCarYears.json();
+        this.fillCarYearsRequest(fetchedCarYearsInJSON);
+    };
+
+    getCarInformation = async (
+        selectedBrandId,
+        selectedModelId,
+        selectedCarYear
+    ) => {
+        const url =
+            `${this.getBaseUrl()}marcas/${selectedBrandId}/modelos/${selectedModelId}/anos/${selectedCarYear}`;
+        const fetchedCarInformation = await fetch(url);
+        const fetchedCarInformationInJSON = await fetchedCarInformation.json();
+        this.fillCarInformation(fetchedCarInformationInJSON);
+    };
 }
 
 export default remotedev(
-  decorate(FipeStore, {
-    brands: observable,
-    models: observable,
-    carYears: observable,
-    selectedBrand: observable,
-    carInformation: observable,
-    selectedModel: observable,
-    selectedCarYear: observable,
-    getBrands: action,
-    getCarYears: action,
-    getModels: action,
-    setInitialState: action,
-    setSelectedBrand: action,
-    setSelectedCarYear: action,
-    setSelectedModel: action,
-    fillBrandRequest: action,
-    fillCarYearsRequest: action,
-    fillModelRequest: action,
-    fillCarInformation: action
-  })
+    decorate(FipeStore, {
+        brands: observable,
+        models: observable,
+        carYears: observable,
+        selectedBrand: observable,
+        carInformation: observable,
+        selectedModel: observable,
+        selectedCarYear: observable,
+        
+        getBrands: action,
+        getCarYears: action,
+        getModels: action,
+        
+        setInitialState: action,
+        setSelectedBrand: action,
+        setSelectedCarYear: action,
+        setSelectedModel: action,
+        setSelectedVehicleType: action,
+
+        fillBrandRequest: action,
+        fillCarYearsRequest: action,
+        fillModelRequest: action,
+        fillCarInformation: action
+    })
 );
