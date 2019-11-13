@@ -1,0 +1,5 @@
+.container-custom-btns{
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 15vh;
+}
