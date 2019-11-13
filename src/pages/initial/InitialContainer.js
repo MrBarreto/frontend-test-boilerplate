@@ -6,11 +6,8 @@ class InitialContainer extends React.Component {
   render() {
     const ViewComponent = this.props.viewComponent;
     const {
-      userStore: { initial }
+      fipeStore: { setSelectedVehicleType }
     } = this.props;
-    const viewComponentProps = {
-      initial
-    };
 
     const btnContents = [
       {
@@ -27,7 +24,12 @@ class InitialContainer extends React.Component {
       }
     ];
 
-    return <ViewComponent {...viewComponentProps} btnContents={btnContents} />;
+    const viewComponentProps = {
+      setSelectedVehicleType,
+      btnContents
+    };
+
+    return <ViewComponent {...viewComponentProps} />;
   }
 }
 

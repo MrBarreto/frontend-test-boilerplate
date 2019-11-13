@@ -5,9 +5,8 @@ import InitialContainer from "./InitialContainer";
 import InitialComponent from "./InitialComponent";
 
 const Container = connect(
-  InitialContainer,  ["userStore", "uiStore"]
+  InitialContainer,  ["fipeStore"]
 );
-
 
 function InitialMain(props) {
   return <Container viewComponent={InitialComponent} {...props} />;

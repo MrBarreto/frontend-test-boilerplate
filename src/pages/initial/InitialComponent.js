@@ -4,24 +4,25 @@ import "../../style/Initial.css";
 
 class InitialComponent extends React.Component {
   render() {
-    const { initial, btnContents } = this.props;
-
-    console.log("initial: ", initial);
+    const { setSelectedVehicleType, btnContents } = this.props;
 
     return (
       <React.Fragment>
-        <h2>{initial}</h2>
+        <h2>Initial screen</h2>
 
         <div className="container-custom-btns">
           {
-            btnContents.map(btn => <CustomButtonIcon icon={btn.icon} text={btn.text} />)
+            btnContents.map(btn => {
+              return (
+                <CustomButtonIcon
+                  icon={btn.icon}
+                  text={btn.text}
+                  onClick={() => setSelectedVehicleType(btn.text)}
+                />
+              );
+            })
           }
         </div>
-
-        {/* <CustomButtonIcon
-          icon={<FaCarSide/>}
-          text={"Carro"}
-        /> */}
 
       </React.Fragment>
     );
