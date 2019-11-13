@@ -1,4 +1,4 @@
-import { Home } from "../pages";
+import { Home, Initial } from "../pages";
 
 const routes = [
   {
@@ -6,6 +6,12 @@ const routes = [
     path: "/",
     component: Home,
     key: "home"
+  },
+  {
+    exact: true,
+    path: "/initial",
+    component: Initial,
+    key: "initial"
   }
 ];
 
