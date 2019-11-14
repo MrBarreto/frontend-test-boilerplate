@@ -1,7 +1,13 @@
 body,html{
-    font-family: 'Century Gothic','Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif !important; 
+    height: 100vh;
+    width: 100vw;
+    padding: unset;
+    margin: unset;
+    font-family: 'Century Gothic','Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; 
+    color: #333;
 }
 
-body, html > {
+body > *,html > *{
     font-family: 'Century Gothic','Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; 
+    color: #333;
 }
