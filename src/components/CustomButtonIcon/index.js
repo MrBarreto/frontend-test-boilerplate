@@ -1,19 +1,13 @@
 import * as React from 'react';
 import "../../style/CustomButtonIcon.css";
-import { baseUrl } from "../../config/location";
 
 class CustomButtonIcon extends React.Component {
     render() {
         const { icon, text, onClick } = this.props;
-        
-        const customOnClick = () => {
-            onClick();
-            window.location = `${baseUrl}filters`;
-        }
 
         return (
             <button
-                onClick={customOnClick}
+                onClick={onClick}
                 className='custom-btn-icon-text'
             >
                 <span className='custom-btn-icon'>{icon}</span>
