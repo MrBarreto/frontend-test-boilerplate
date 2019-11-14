@@ -1,6 +1,5 @@
 import { action, observable, decorate } from 'mobx';
 import remotedev from 'mobx-remotedev';
-import VehicleType from '../enums/VehicleTypeEnum';
 
 const baseUrl = 'https://parallelum.com.br/fipe/api/v1/';
 
@@ -24,7 +23,6 @@ const _defaultInitialState = {
 class FipeStore {
     constructor() {
         this.setInitialState(_defaultInitialState);
-        this.getBrands();
     }
 
     setInitialState = initialState => {
@@ -38,6 +36,7 @@ class FipeStore {
             selectedCarYear,
             selectedVehicleType,
             filterRedirect,
+            detailsRedirect,
         } = initialState;
 
         this.brands = brands;
@@ -49,6 +48,7 @@ class FipeStore {
         this.selectedCarYear = selectedCarYear;
         this.selectedVehicleType = selectedVehicleType;
         this.filterRedirect = filterRedirect;
+        this.detailsRedirect = detailsRedirect;
     };
 
     fillBrandRequest = responseFromRequest => {
@@ -111,24 +111,32 @@ class FipeStore {
         this.filterRedirect = value;
     }
 
-    getBaseUrl = () => `${baseUrl}/${VehicleType}/`;
+    setDetailsRedirect = value => {
+        this.filterRedirect = value;
+    }
+
+    getVehicleTypedUrl = () => {
+        return `${baseUrl + this.selectedVehicleType}/`;
+    };
 
     getModels = async selectedBrandId => {
         const fetchedModels = await fetch(
-            this.getBaseUrl() + `marcas/${selectedBrandId}/modelos`
+            this.getVehicleTypedUrl() + `marcas/${selectedBrandId}/modelos`
         );
         const fetchedModelsInJSON = await fetchedModels.json();
         this.fillModelRequest(fetchedModelsInJSON.modelos);
     };
 
     getBrands = async () => {
-        const fetchedBrands = await fetch(`${this.getBaseUrl()}/marcas`);
+        const fetchedBrands = await fetch(`${this.getVehicleTypedUrl()}marcas`);
+        console.log(`${this.getVehicleTypedUrl()}marcas`);
+        
         const fetchedBrandsInJSON = await fetchedBrands.json();
         this.fillBrandRequest(fetchedBrandsInJSON);
     };
 
     getCarYears = async (selectedBrandId, selectedModelId) => {
-        const url = `${this.getBaseUrl()}marcas/${selectedBrandId}/modelos/${selectedModelId}/anos`;
+        const url = `${this.getVehicleTypedUrl()}marcas/${selectedBrandId}/modelos/${selectedModelId}/anos`;
         const fetchedCarYears = await fetch(url);
         const fetchedCarYearsInJSON = await fetchedCarYears.json();
         this.fillCarYearsRequest(fetchedCarYearsInJSON);
@@ -140,7 +148,7 @@ class FipeStore {
         selectedCarYear
     ) => {
         const url =
-            `${this.getBaseUrl()}marcas/${selectedBrandId}/modelos/${selectedModelId}/anos/${selectedCarYear}`;
+            `${this.getVehicleTypedUrl()}marcas/${selectedBrandId}/modelos/${selectedModelId}/anos/${selectedCarYear}`;
         const fetchedCarInformation = await fetch(url);
         const fetchedCarInformationInJSON = await fetchedCarInformation.json();
         this.fillCarInformation(fetchedCarInformationInJSON);
@@ -158,10 +166,12 @@ export default remotedev(
         selectedCarYear: observable,
         selectedVehicleType: observable,
         filterRedirect: observable,
+        detailsRedirect: observable,
 
         getBrands: action,
         getCarYears: action,
         getModels: action,
+        getVehicleTypedUrl: action,
 
         setInitialState: action,
         setSelectedBrand: action,
@@ -169,6 +179,7 @@ export default remotedev(
         setSelectedModel: action,
         setSelectedVehicleType: action,
         setFilterRedirect: action,
+        setDetailsRedirect: action,
 
         fillBrandRequest: action,
         fillCarYearsRequest: action,
