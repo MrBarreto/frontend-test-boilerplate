@@ -1,0 +1,14 @@
+.dropdown-brands{
+    min-width: 60%;
+    margin: 12px 0;
+}
+
+.dropdown-models{
+    min-width: 100%;
+    margin: 12px 0;
+}
+
+.dropdown-car-year{
+    min-width: 62%;
+    margin: 12px 0;
+}
