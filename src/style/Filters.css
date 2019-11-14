@@ -1,0 +1,66 @@
+.filters-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.filters-panel{
+    width: 32vw;
+    margin: 2vw;
+    padding: 3vw;
+    color: #333;
+    border: 1px solid #00A29A;
+    border-radius: 16px;
+    font-size: large;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.filters-panel > p{
+    width: fit-content;
+}
+
+.filter-header-previous-label{
+    margin-bottom: unset;
+}
+
+.filter-header-label{
+    text-transform: uppercase;
+    font-size: 30px;
+    margin: 0px 26px;
+    color: #333;
+}
+
+.mobi-logo{
+    background-image: url('../assets/img/mobiauto-logo.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 20vw;
+    height: 8vh;
+    margin: 20px;
+}
+
+.filters-confirm-btn{
+    cursor: pointer;
+    font-size: 2vw;
+    border-radius: 37px;
+    background-color: #016d67;
+    color: #fff;
+    padding: 10px 25px;
+    transition: ease-in .5s;
+    font-family: 'Century Gothic','Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.filters-confirm-btn:hover{
+    background-color: #00a29a;
+}
+
+.filters-confirm-btn:disabled{
+    cursor: not-allowed;
+}
+
+.filters-confirm-btn:focus {outline:0;}
+

@@ -1,39 +1,45 @@
 import * as React from 'react';
 
-class FilterContainer extends React.Component {
+class FiltersContainer extends React.Component {
   render() {
     const ViewComponent = this.props.viewComponent;
 
     const {
-      fipeStore: { 
+      fipeStore: {
+        selectedVehicleType,
         brands,
-        models,
-        carYears,
+        getBrands,
         selectedBrand,
-        selectedModel,
-        carInformation,
-        selectedCarYear,
-        setSelectedModel,
         setSelectedBrand,
-        setSelectedCarYear
-       }
+        models,
+        selectedModel,
+        setSelectedModel,
+        carYears,
+        selectedCarYear,
+        setSelectedCarYear,
+        detailsRedirect,
+        setDetailsRedirect,
+      }
     } = this.props;
 
     const viewComponentProps = {
+      selectedVehicleType,
       brands,
-      models,
-      carYears,
+      getBrands,
       selectedBrand,
-      selectedModel,
-      carInformation,
-      selectedCarYear,
-      setSelectedModel,
       setSelectedBrand,
-      setSelectedCarYear
+      models,
+      selectedModel,
+      setSelectedModel,
+      carYears,
+      selectedCarYear,
+      setSelectedCarYear,
+      detailsRedirect,
+      setDetailsRedirect,
     };
 
     return <ViewComponent {...viewComponentProps} />;
   }
 }
 
-export default FilterContainer;
+export default FiltersContainer;
