@@ -1,11 +1,11 @@
-import { action, observable, decorate } from "mobx";
-import remotedev from "mobx-remotedev";
+import { action, observable, decorate } from 'mobx';
+import remotedev from 'mobx-remotedev';
 import VehicleType from '../enums/VehicleTypeEnum';
 
-const baseUrl = "https://parallelum.com.br/fipe/api/v1/";
+const baseUrl = 'https://parallelum.com.br/fipe/api/v1/';
 
 const _defaultInitialState = {
-    selectedVehicleType: null,
+    selectedVehicleType: "",
 
     selectedBrand: null,
     brands: [],
@@ -16,7 +16,9 @@ const _defaultInitialState = {
     selectedCarYear: null,
     carYears: [],
 
-    carInformation: undefined
+    carInformation: undefined,
+
+    filterRedirect: false,
 };
 
 class FipeStore {
@@ -35,6 +37,7 @@ class FipeStore {
             carInformation,
             selectedCarYear,
             selectedVehicleType,
+            filterRedirect,
         } = initialState;
 
         this.brands = brands;
@@ -45,6 +48,7 @@ class FipeStore {
         this.selectedModel = selectedModel;
         this.selectedCarYear = selectedCarYear;
         this.selectedVehicleType = selectedVehicleType;
+        this.filterRedirect = filterRedirect;
     };
 
     fillBrandRequest = responseFromRequest => {
@@ -65,7 +69,10 @@ class FipeStore {
 
     setSelectedVehicleType = selectedVehicleType => {
         this.selectedVehicleType = selectedVehicleType;
-    }
+        alert(this.selectedVehicleType);
+        console.log(this);
+
+    };
 
     setSelectedBrand = selectedBrand => {
         this.selectedBrand = selectedBrand;
@@ -100,8 +107,11 @@ class FipeStore {
         );
     };
 
-    getBaseUrl = () => `${baseUrl}/${VehicleType}/`;
+    setFilterRedirect = value => {
+        this.filterRedirect = value;
+    }
 
+    getBaseUrl = () => `${baseUrl}/${VehicleType}/`;
 
     getModels = async selectedBrandId => {
         const fetchedModels = await fetch(
@@ -146,16 +156,19 @@ export default remotedev(
         carInformation: observable,
         selectedModel: observable,
         selectedCarYear: observable,
-        
+        selectedVehicleType: observable,
+        filterRedirect: observable,
+
         getBrands: action,
         getCarYears: action,
         getModels: action,
-        
+
         setInitialState: action,
         setSelectedBrand: action,
         setSelectedCarYear: action,
         setSelectedModel: action,
         setSelectedVehicleType: action,
+        setFilterRedirect: action,
 
         fillBrandRequest: action,
         fillCarYearsRequest: action,

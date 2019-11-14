@@ -4,26 +4,20 @@ import "../../style/Initial.css";
 import { Redirect } from 'react-router-dom';
 
 class InitialComponent extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = { redirect: false }
-  }
-
   selectVehicleTypeAndRedirect = (vehicleType) => {
-    const { setSelectedVehicleType } = this.props;
+    const { setSelectedVehicleType, setFilterRedirect } = this.props;
     setSelectedVehicleType(vehicleType);
-    this.setState({ redirect: true });
+    setFilterRedirect(true);
   }
 
   render() {
-    const { btnContents } = this.props;
-    const { redirect } = this.state;
+    const { btnContents, filterRedirect } = this.props;
+    
 
     return (
       <React.Fragment>
 
-        {redirect && <Redirect to='/filters' />}
+        {filterRedirect && <Redirect to='/filters' />}
 
         <h2>Initial screen</h2>
 
