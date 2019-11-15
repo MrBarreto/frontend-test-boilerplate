@@ -4,10 +4,17 @@ class HomeContainer extends React.Component {
   render() {
     const ViewComponent = this.props.viewComponent;
     const {
-      userStore: { welcome }
+      userStore: { welcome },
+      fipeStore: {
+        initialRedirect,
+        setInitialRedirect,
+      }
     } = this.props;
+
     const viewComponentProps = {
-      welcome
+      welcome,
+      initialRedirect,
+      setInitialRedirect,
     };
 
     return <ViewComponent {...viewComponentProps} />;

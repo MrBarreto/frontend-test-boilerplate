@@ -1,12 +1,12 @@
-import * as React from "react";
-import { connect } from "../../store";
+import * as React from 'react';
+import { connect } from '../../store';
 
-import HomeContainer from "./HomeContainer";
-import HomeComponent from "./HomeComponent";
+import HomeContainer from './HomeContainer';
+import HomeComponent from './HomeComponent';
 
 const Container = connect(
   HomeContainer,
-  ["userStore", "uiStore"]
+  ['userStore', 'uiStore','fipeStore']
 );
 
 function HomeMain(props) {
