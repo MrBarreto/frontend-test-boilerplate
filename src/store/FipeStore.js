@@ -12,12 +12,16 @@ const _defaultInitialState = {
     selectedModel: null,
     models: [],
 
-    selectedCarYear: null,
-    carYears: [],
+    selectedVehicleYear: null,
+    vehicleYears: [],
 
-    carInformation: undefined,
+    vehicleDetails: undefined,
 
-    filterRedirect: false,
+    initialRedirect: false,
+    filtersRedirect: false,
+    detailsRedirect: false,
+
+    initializationsCounter: 0
 };
 
 class FipeStore {
@@ -29,27 +33,35 @@ class FipeStore {
         const {
             brands,
             models,
-            carYears,
+            vehicleYears,
             selectedModel,
             selectedBrand,
-            carInformation,
-            selectedCarYear,
+            vehicleDetails,
+            selectedVehicleYear,
             selectedVehicleType,
-            filterRedirect,
+            initialRedirect,
+            filtersRedirect,
             detailsRedirect,
+            initializationsCounter,
         } = initialState;
 
         this.brands = brands;
         this.models = models;
-        this.carYears = carYears;
-        this.carInformation = carInformation;
+        this.vehicleYears = vehicleYears;
+        this.vehicleDetails = vehicleDetails;
         this.selectedBrand = selectedBrand;
         this.selectedModel = selectedModel;
-        this.selectedCarYear = selectedCarYear;
+        this.selectedVehicleYear = selectedVehicleYear;
         this.selectedVehicleType = selectedVehicleType;
-        this.filterRedirect = filterRedirect;
+        this.initialRedirect = initialRedirect;
+        this.filtersRedirect = filtersRedirect;
         this.detailsRedirect = detailsRedirect;
+        this.initializationsCounter = initializationsCounter;
     };
+
+    incrementInitializationsCounter = () => {
+        this.initializationsCounter += 1;
+    }
 
     fillBrandRequest = responseFromRequest => {
         this.brands = responseFromRequest;
@@ -59,60 +71,61 @@ class FipeStore {
         this.models = responseFromRequest;
     };
 
-    fillCarYearsRequest = responseFromRequest => {
-        this.carYears = responseFromRequest;
+    fillVehicleYearsRequest = responseFromRequest => {
+        this.vehicleYears = responseFromRequest;
     };
 
-    fillCarInformation = responseFromRequest => {
-        this.carInformation = responseFromRequest;
+    fillVehicleDetails = responseFromRequest => {
+        this.vehicleDetails = responseFromRequest;
     };
 
     setSelectedVehicleType = selectedVehicleType => {
         this.selectedVehicleType = selectedVehicleType;
-        alert(this.selectedVehicleType);
-        console.log(this);
-
     };
 
     setSelectedBrand = selectedBrand => {
         this.selectedBrand = selectedBrand;
 
-        this.selectedCarYear = null;
+        this.selectedVehicleYear = null;
         this.selectedModel = null;
-        this.carInformation = null;
+        this.vehicleDetails = null;
 
         this.models = [];
-        this.carYears = [];
+        this.vehicleYears = [];
 
         this.getModels(selectedBrand.value);
     };
 
     setSelectedModel = selectedModel => {
         this.selectedModel = selectedModel;
-        this.selectedCarYear = null;
-        this.carInformation = null;
+        this.selectedVehicleYear = null;
+        this.vehicleDetails = null;
 
-        this.carYears = [];
+        this.vehicleYears = [];
 
-        this.getCarYears(this.selectedBrand.value, this.selectedModel.value);
+        this.getVehicleYears(this.selectedBrand.value, this.selectedModel.value);
     };
 
-    setSelectedCarYear = selectedCarYear => {
-        this.selectedCarYear = selectedCarYear;
+    setSelectedVehicleYear = selectedVehicleYear => {
+        this.selectedVehicleYear = selectedVehicleYear;
 
-        this.getCarInformation(
+        this.getVehicleDetails(
             this.selectedBrand.value,
             this.selectedModel.value,
-            this.selectedCarYear.value
+            this.selectedVehicleYear.value
         );
     };
 
-    setFilterRedirect = value => {
-        this.filterRedirect = value;
+    setInitialRedirect = value => {
+        this.initialRedirect = value;
+    }
+
+    setFiltersRedirect = value => {
+        this.filtersRedirect = value;
     }
 
     setDetailsRedirect = value => {
-        this.filterRedirect = value;
+        this.detailsRedirect = value;
     }
 
     getVehicleTypedUrl = () => {
@@ -129,29 +142,43 @@ class FipeStore {
 
     getBrands = async () => {
         const fetchedBrands = await fetch(`${this.getVehicleTypedUrl()}marcas`);
-        console.log(`${this.getVehicleTypedUrl()}marcas`);
-        
         const fetchedBrandsInJSON = await fetchedBrands.json();
         this.fillBrandRequest(fetchedBrandsInJSON);
     };
 
-    getCarYears = async (selectedBrandId, selectedModelId) => {
+    getVehicleYears = async (selectedBrandId, selectedModelId) => {
         const url = `${this.getVehicleTypedUrl()}marcas/${selectedBrandId}/modelos/${selectedModelId}/anos`;
-        const fetchedCarYears = await fetch(url);
-        const fetchedCarYearsInJSON = await fetchedCarYears.json();
-        this.fillCarYearsRequest(fetchedCarYearsInJSON);
+        const fetchedVehicleYears = await fetch(url);
+        const fetchedVehicleYearsInJSON = await fetchedVehicleYears.json();
+        this.fillVehicleYearsRequest(fetchedVehicleYearsInJSON);
     };
 
-    getCarInformation = async (
+    getVehicleDetails = async (
         selectedBrandId,
         selectedModelId,
-        selectedCarYear
+        selectedvehicleYear
     ) => {
         const url =
-            `${this.getVehicleTypedUrl()}marcas/${selectedBrandId}/modelos/${selectedModelId}/anos/${selectedCarYear}`;
-        const fetchedCarInformation = await fetch(url);
-        const fetchedCarInformationInJSON = await fetchedCarInformation.json();
-        this.fillCarInformation(fetchedCarInformationInJSON);
+            `${this.getVehicleTypedUrl()}marcas/${selectedBrandId}/modelos/${selectedModelId}/anos/${selectedvehicleYear}`;
+        const fetchedVehicleDetails = await fetch(url);
+        const fetchedVehicleDetailsInJSON = await fetchedVehicleDetails.json();
+        this.fillVehicleDetails(fetchedVehicleDetailsInJSON);
+    };
+
+    clearSelectedBrand = () => {
+        this.selectedBrand = null;
+    };
+
+    clearSelectedModel = () => {
+        this.selectedModel = null;
+    };
+
+    clearSelectedVehicleYear = () => {
+        this.selectedVehicleYear = null;
+    };
+
+    clearSelectedVehicleType = () => {
+        this.selectedVehicleType = "";
     };
 }
 
@@ -159,31 +186,41 @@ export default remotedev(
     decorate(FipeStore, {
         brands: observable,
         models: observable,
-        carYears: observable,
+        vehicleYears: observable,
         selectedBrand: observable,
-        carInformation: observable,
+        vehicleDetails: observable,
         selectedModel: observable,
-        selectedCarYear: observable,
+        selectedVehicleYear: observable,
         selectedVehicleType: observable,
-        filterRedirect: observable,
+        initialRedirect: observable,
+        filtersRedirect: observable,
         detailsRedirect: observable,
+        initializationsCounter: observable,
 
         getBrands: action,
-        getCarYears: action,
+        getVehicleYears: action,
         getModels: action,
         getVehicleTypedUrl: action,
 
         setInitialState: action,
         setSelectedBrand: action,
-        setSelectedCarYear: action,
+        setSelectedVehicleYear: action,
         setSelectedModel: action,
         setSelectedVehicleType: action,
-        setFilterRedirect: action,
+        setInitialRedirect: action,
+        setFiltersRedirect: action,
         setDetailsRedirect: action,
 
         fillBrandRequest: action,
-        fillCarYearsRequest: action,
+        fillVehicleYearsRequest: action,
         fillModelRequest: action,
-        fillCarInformation: action
+        fillVehicleDetails: action,
+
+        incrementInitializationsCounter: action,
+
+        clearSelectedVehicleType: action,
+        clearSelectedBrand: action,
+        clearSelectedModel: action,
+        clearSelectedVehicleYear: action,
     })
 );
