@@ -7,9 +7,15 @@ class InitialContainer extends React.Component {
     const ViewComponent = this.props.viewComponent;
     const {
       fipeStore: {
+        filtersRedirect,
+        initializationsCounter,
+        incrementInitializationsCounter,
+        setFiltersRedirect,
         setSelectedVehicleType,
-        setFilterRedirect,
-        filterRedirect
+        clearSelectedVehicleType,
+        clearSelectedBrand,
+        clearSelectedModel,
+        clearSelectedVehicleYear,
       }
     } = this.props;
 
@@ -29,10 +35,16 @@ class InitialContainer extends React.Component {
     ];
 
     const viewComponentProps = {
+      btnContents,
+      initializationsCounter,
+      incrementInitializationsCounter,
+      filtersRedirect,
+      setFiltersRedirect,
       setSelectedVehicleType,
-      setFilterRedirect,
-      filterRedirect,
-      btnContents
+      clearSelectedVehicleType,
+      clearSelectedBrand,
+      clearSelectedModel,
+      clearSelectedVehicleYear,
     };
 
     return <ViewComponent {...viewComponentProps} />;

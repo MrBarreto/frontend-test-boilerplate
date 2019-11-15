@@ -1,27 +1,45 @@
 import * as React from "react";
-import { CustomButtonIcon } from "../../components";
+import { CustomButtonIcon, Logo } from "../../components";
 import "../../style/Initial.css";
 import { Redirect } from 'react-router-dom';
 
 class InitialComponent extends React.Component {
+  constructor(props) {
+    super(props);
+    const {
+      incrementInitializationsCounter,
+      clearSelectedVehicleType,
+      clearSelectedBrand,
+      clearSelectedModel,
+      clearSelectedVehicleYear,
+    } = this.props;
+
+    incrementInitializationsCounter();
+    clearSelectedVehicleType("")
+    clearSelectedBrand();
+    clearSelectedModel();
+    clearSelectedVehicleYear();
+  }
+
   selectVehicleTypeAndRedirect = (vehicleType) => {
-    const { setSelectedVehicleType, setFilterRedirect } = this.props;
+    const { setSelectedVehicleType, setFiltersRedirect } = this.props;
     setSelectedVehicleType(vehicleType);
-    setFilterRedirect(true);
+    setFiltersRedirect(true);
   }
 
   render() {
-    const { btnContents, filterRedirect } = this.props;
-    
+    const { btnContents, filtersRedirect, initializationsCounter } = this.props;
 
     return (
-      <React.Fragment>
+      <React.Fragment className='initial-container'>
 
-        {filterRedirect && <Redirect to='/filters' />}
+        {filtersRedirect && <Redirect to='/filters' />}
 
-        <h2>Initial screen</h2>
-
-        <div className="container-custom-btns">
+        <header className='initial-header'>
+          <Logo />
+          <p>Escolha uma das opções abaixo para prosseguir com a filtragem</p>
+        </header>
+        <section className="container-custom-btns">
           {
             btnContents.map(btn => {
               return (
@@ -33,8 +51,14 @@ class InitialComponent extends React.Component {
               );
             })
           }
-        </div>
+        </section>
+        <footer className='initial-footer'>
+          {
+            (initializationsCounter >= 3) &&
+            <p>Eu posso fazer isso o dia todo! <span role='img' aria-label='wink'>😉</span></p>
+          }
 
+        </footer>
       </React.Fragment>
     );
   }
