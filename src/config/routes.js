@@ -1,4 +1,4 @@
-import { Home, Initial, Filters } from "../pages";
+import { Home, Initial, Filters, Detail } from "../pages";
 
 const routes = [
   {
@@ -18,6 +18,12 @@ const routes = [
     path: "/filters",
     component: Filters,
     key: "filters"
+  },
+  {
+    exact: true,
+    path: "/detail",
+    component: Detail,
+    key: "detail"
   }
   
 ];
