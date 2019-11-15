@@ -1,0 +1,30 @@
+.home-wrapper-container{
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
+}
+
+.home-bg-container{
+    background-image: url('../assets/img/mobi-wallpaper.jpg');
+    z-index: -1;
+    width: 150vw;
+    height: 150vh;
+    position: absolute;
+    background-size: cover;
+    transform: rotate(-10deg) translate(-26vh, -16vw);
+}
+
+.home-container{
+    height: 20vh;
+    width: 50vw;
+    color: #fff;
+    position: absolute;
+    background-color: #1d1d1dcc;
+    text-align: center;
+    padding: 4vh;
+    border-radius: 10px;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%)
+}

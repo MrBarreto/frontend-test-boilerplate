@@ -1,0 +1,9 @@
+.loading-container{
+    background-color: #ffffff7c;
+}
+
+.mobi-loading{
+    background-image: url('../assets/gifs/mobigif.gif');
+    background-size: 20vh 30vw;
+
+}

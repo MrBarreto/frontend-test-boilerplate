@@ -1,0 +1,36 @@
+.detail-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.info-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 32vw;
+    margin: 2vw;
+    padding: 3vw;
+    color: #333;
+    border: 1px solid #00A29A;
+    border-radius: 16px;
+}
+
+.info-container > div{
+    text-align: center;
+}
+.info-container > div>h4{
+    margin: unset;
+}
+
+.info-container > div:nth-child(1){
+    font-size: 30px;
+    flex-grow: 2;
+}
+
+.side-organization{
+    display: flex;
+    width: inherit;
+    justify-content: space-between;
+}
