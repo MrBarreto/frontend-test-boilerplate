@@ -33,16 +33,6 @@
     color: #333;
 }
 
-.mobi-logo{
-    background-image: url('../assets/img/mobiauto-logo.png');
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
-    width: 20vw;
-    height: 8vh;
-    margin: 20px;
-}
-
 .filters-confirm-btn{
     cursor: pointer;
     font-size: 2vw;

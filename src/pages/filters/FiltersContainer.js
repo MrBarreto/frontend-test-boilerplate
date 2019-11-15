@@ -14,10 +14,12 @@ class FiltersContainer extends React.Component {
         models,
         selectedModel,
         setSelectedModel,
-        carYears,
-        selectedCarYear,
-        setSelectedCarYear,
+        vehicleYears,
+        selectedVehicleYear,
+        setSelectedVehicleYear,
         detailsRedirect,
+        setInitialRedirect,
+        setFiltersRedirect,
         setDetailsRedirect,
       }
     } = this.props;
@@ -31,10 +33,12 @@ class FiltersContainer extends React.Component {
       models,
       selectedModel,
       setSelectedModel,
-      carYears,
-      selectedCarYear,
-      setSelectedCarYear,
+      vehicleYears,
+      selectedVehicleYear,
+      setSelectedVehicleYear,
       detailsRedirect,
+      setInitialRedirect,
+      setFiltersRedirect,
       setDetailsRedirect,
     };
 
