@@ -3,7 +3,7 @@ import { Provider } from "mobx-react";
 import store from "../src/store";
 import { Route, Switch, BrowserRouter } from "react-router-dom";
 import routes from "../src/config/routes";
-import "./style/App.css";
+import "./style/app.css";
 
 class App extends Component {
   render() {
